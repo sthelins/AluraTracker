@@ -10,26 +10,11 @@
           type="text"
           class="input"
           placeholder="Qual tarefa você deseja iniciar?"
+          v-model="descricao"
         />
       </div>
       <div class="column">
-        <div
-          class="is-flex is-align-items-center is-justify-content-space-between"
-        >
-          <Cronometro :tempoEmSegundos="tempoEmSegundos" />
-          <button class="button" @click="iniciar">
-            <span class="icon">
-              <i class="fas fa-play"></i>
-            </span>
-            <span>play</span>
-          </button>
-          <button class="button" @click="finalizar">
-            <span class="icon">
-              <i class="fas fa-stop"></i>
-            </span>
-            <span>stop</span>
-          </button>
-        </div>
+        <Temporizador @aoTemporizadorFinalizado="finalizarTarefa" />
       </div>
     </div>
   </div>
@@ -37,28 +22,23 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Cronometro from './Cronometro.vue'
+import Temporizador from './Temporizador.vue'
 
 export default defineComponent({
   name: 'FormuláriodeTarefas',
   components: {
-    Cronometro
+    Temporizador
   },
   data() {
     return {
-      tempoEmSegundos: 0,
-      cronomentro: 0
+      descricao: ''
     }
   },
   methods: {
-    iniciar() {
-      // 1 seg = 1000ms
-      this.cronometro = setInterval(() => {
-        this.tempoEmSegundos += 1
-      }, 1000)
-    },
-    finalizar() {
-      clearInterval(this.cronometro)
+    finalizarTarefa(tempoDecorrido: number): void {
+      console.log('tempo da tarefa', tempoDecorrido)
+      console.log('descrição da tarefa', this.descricao)
+      this.descricao = ''
     }
   }
 })
